@@ -43,11 +43,10 @@ class IndeedScrapper:
                     cls = div.attrs['class']
                     if 'row' in cls and 'result' in cls:
                         self.scrap_result_row(div)
-
                         # break
                 sleep_scrapper('IndeedScraper')
             except Exception as exp:
-                print '[HomeDepotScraper] :: run() :: Got exception : ' \
+                print '[IndeedScraper] :: run() :: Got exception : ' \
                       '%s and fetching data from url: %s' % (exp, url)
 
     def scrap_result_row(self, div):
