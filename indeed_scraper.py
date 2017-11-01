@@ -23,7 +23,6 @@ class IndeedScrapper:
             url = ''
             try:
                 url = base_url + str(j)
-                print ''
                 print '[IndeedScrapper] :: fetching data from url:', url
                 r = requests.get(url)
 
