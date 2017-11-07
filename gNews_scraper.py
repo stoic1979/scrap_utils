@@ -1,5 +1,5 @@
 #
-# Script for scrapping products from Bed Bath And Beyond
+# Script for scrapping products from Google News
 #
 
 
