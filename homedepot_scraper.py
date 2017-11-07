@@ -5,7 +5,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-from utils import sleep_scrapper
+from utils import sleep_scrapper, get_request_headers
 
 
 class HomeDepotScraper:
@@ -24,7 +24,7 @@ class HomeDepotScraper:
             try:
                 url = base_url + str(j) + sufix
                 print '[HomeDepotScraper] :: fetching data from url: ', url
-                r = requests.get(url)
+                r = requests.get(url, headers=get_request_headers())
                 if not r.status_code == 200:
                     print "[HomeDepotScraper] :: Failed to get " \
                           "content of url: %s" % url
@@ -44,8 +44,8 @@ class HomeDepotScraper:
 
         try:
             # name
-            name = div.find('div', class_='pod-plp__description '
-                                      'js-podclick-analytics').text.strip()
+            name = div.find('div', class_='pod-plp__description'
+                                          'js-podclick-analytics').text.strip()
             print '[HomeDepotScraper] :: name: ', name
 
             # model
@@ -65,5 +65,6 @@ class HomeDepotScraper:
                   'Got exception : %s' % exp
 
 if __name__ == '__main__':
-    homedepot = HomeDepotScraper('Holiday Decorations Fall Decorations Fall Garland-Wreaths')
+    homedepot = HomeDepotScraper('Holiday Decorations Fall '
+                                 'Decorations Fall Garland-Wreaths')
     homedepot.run()

@@ -6,6 +6,11 @@ SCRAPPER_SLEEP_MIN = 30  # in seconds
 SCRAPPER_SLEEP_MAX = 60  # in seconds
 
 
+def get_request_headers():
+    agents = ['Mozilla/5.0', 'Safari/533.1', 'Chrome/33.0.1750.117']
+    return {'User-Agents': agents[randint(0, len(agents)-1)]}
+
+
 def get_rand_in_range(min, max):
     return randint(min, max)
 

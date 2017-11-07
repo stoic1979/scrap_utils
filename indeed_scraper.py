@@ -5,7 +5,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-from utils import sleep_scrapper
+from utils import sleep_scrapper, get_request_headers
 
 
 class IndeedScrapper:
@@ -24,7 +24,7 @@ class IndeedScrapper:
             try:
                 url = base_url + str(j)
                 print '[IndeedScrapper] :: fetching data from url:', url
-                r = requests.get(url)
+                r = requests.get(url, headers=get_request_headers())
 
                 if not r.status_code == 200:
                     print "[IndeedScrapper] :: Failed to " \
