@@ -6,7 +6,7 @@
 import requests
 import traceback
 from bs4 import BeautifulSoup
-from utils import sleep_scrapper, get_request_headers
+from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
 
 class GoogleNewsScraper:
@@ -43,13 +43,20 @@ class GoogleNewsScraper:
 
         try:
             c_wiz = div.find('c-wiz', class_='M1Uqc kWyHVd')
-            a = c_wiz.find('a', class_='nuEeue hzdq5d ME7ew').text.strip()
-            print '[GoogleNewsScraper] :: HeadLines: ', a
+            headlines = c_wiz.find('a', class_='nuEeue hzdq5d ME7ew')\
+                .text.strip()
+            print '[GoogleNewsScraper] :: HeadLines: ', headlines
             div = div.find('div', class_='alVsqf')
             sub = div.find('div', class_='jJzAOb')
             c_wiz = sub.find('c-wiz', class_='M1Uqc MLSuAf')
             a = c_wiz.find('a', class_='nuEeue hzdq5d ME7ew').text.strip()
             print '[GoogleNewsScraper] :: SubheadLines: ', a
+
+            fname = 'data_google_news.csv'
+            msg = "%s, %s" % (headlines, a)
+            print "[GoogleNewsScraper] :: scrap_result_row() :: msg:", msg
+            scraper_csv_write(fname, msg)
+
         except Exception as exp:
             print '[GoogleNewsScraper] :: scrap_result_row() :: ' \
                   'Got exception : %s' % exp

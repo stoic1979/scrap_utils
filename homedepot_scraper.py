@@ -5,7 +5,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-from utils import sleep_scrapper, get_request_headers
+from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
 
 class HomeDepotScraper:
@@ -34,6 +34,7 @@ class HomeDepotScraper:
                 soup = BeautifulSoup(html_doc, 'html.parser')
 
                 for div in soup.find_all('div', class_='pod-inner'):
+                    # print '---------div', div
                     self.scrap_result_row(div)
                 sleep_scrapper('HomeDepotScraper')
             except Exception as exp:
@@ -43,10 +44,11 @@ class HomeDepotScraper:
     def scrap_result_row(self, div):
 
         try:
-            # name
-            name = div.find('div', class_='pod-plp__description'
-                                          'js-podclick-analytics').text.strip()
-            print '[HomeDepotScraper] :: name: ', name
+            # # name
+            # name = div.find('div', class_='pod-plp__description js-
+            # podclick-analytics')
+            # a = name.find('a').strip()
+            # print '[HomeDepotScraper] :: name: ', a
 
             # model
             model = div.find('div', class_='pod-plp__model').text.strip()
@@ -60,11 +62,17 @@ class HomeDepotScraper:
             stock = div.find('div', class_='pod-plp__shipping-message__'
                                            'wrapper-boss-bopis').text.strip()
             print '[HomeDepotScraper] :: stock: ', stock
+
+            fname = 'data_home_depot.csv'
+            msg = "%s, %s, %s," % (model, price, stock)
+            print "[HomeDepotScraper] :: scrap_result_row() :: msg:", msg
+            scraper_csv_write(fname, msg)
+
         except Exception as exp:
             print '[HomeDepotScraper] :: scrap_result_row() :: ' \
                   'Got exception : %s' % exp
 
 if __name__ == '__main__':
     homedepot = HomeDepotScraper('Holiday Decorations Fall '
-                                 'Decorations Fall Garland-Wreaths')
+                                 'Decorations Fall Garland Wreaths')
     homedepot.run()

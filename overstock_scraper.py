@@ -6,7 +6,7 @@
 import requests
 import traceback
 from bs4 import BeautifulSoup
-from utils import sleep_scrapper, get_request_headers
+from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
 
 class OverStockScraper:
@@ -18,10 +18,11 @@ class OverStockScraper:
     def run(self):
         url = ''
         try:
-            base_url = 'https://www.overstock.com/Home-Garden/%s/%s/' % (self.product_category, self.product_code)
+            base_url = 'https://www.overstock.com/Home-Garden/%s/%s/' \
+                       % (self.product_category, self.product_code)
             sufix = 'subcat.html?page='
             for j in range(1, 100, 1):
-                url = base_url +sufix + str(j)
+                url = base_url + sufix + str(j)
                 print '[OverStockScraper] :: fetching data from url:', url
                 r = requests.get(url, headers=get_request_headers())
 
@@ -48,14 +49,22 @@ class OverStockScraper:
         try:
             div = div.find('div', class_='product-info')
             sub_div = div.find('div', class_='product-price-wrapper')
-            s_div = sub_div.find('div', class_='product-price-container').text.strip()
+            s_div = sub_div.find('div', class_='product-price-container')\
+                .text.strip()
             print '[OverStockScraper] :: price: ', s_div
             sub_div = div.find('div', class_='product-title').text.strip()
             print '[OverStockScraper] :: title: ', sub_div
             sub_div = div.find('div', class_='product-footer')
             print '[OverStockScraper] :: rating: ', sub_div
+
+            fname = 'data_over_stock.csv'
+            msg = "%s, %s, %s," % (s_div, sub_div, sub_div)
+            print "[OverStockScraper] :: scrap_result_row() :: msg:", msg
+            scraper_csv_write(fname, msg)
+
         except Exception as exp:
-            print '[OverStockScraper] :: scrap_result_row() :: Got exception: %s' % exp
+            print '[OverStockScraper] :: scrap_result_row() :: ' \
+                  'Got exception: %s' % exp
             print(traceback.format_exc())
 
 

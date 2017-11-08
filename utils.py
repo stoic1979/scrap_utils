@@ -24,3 +24,17 @@ def sleep_scrapper(scrapper_name):
     print "\n\n[%s] :: SLEEPING FOR %d seconds.....\n\n" % (scrapper_name, val)
     time.sleep(val)
     print "\n\n[%s] :: RESUMED \n\n" % scrapper_name
+
+
+def scraper_csv_write(fname, msg):
+    msg = msg.encode("utf-8")
+
+    """
+    with open(fname, "a") as csv_file:
+        writer = csv.writer(csv_file)3
+        writer.writerow(row)
+    """
+
+    f = open(fname, "a")
+    f.write("%s\n" % msg)
+    f.close()

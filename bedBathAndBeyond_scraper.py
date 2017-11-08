@@ -6,7 +6,7 @@
 import requests
 import traceback
 from bs4 import BeautifulSoup
-from utils import sleep_scrapper, get_request_headers
+from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
 
 class BedBathAndBeyondScraper:
@@ -56,6 +56,13 @@ class BedBathAndBeyondScraper:
             sub_div = div.find('div', class_='priceOfProduct')
             sub = sub_div.find('div', class_='isPrice')
             print '[BedBathAndBeyondScraper] :: price: ', sub.text.strip()
+
+            fname = 'data_bed_bath_and_beyond.csv'
+            msg = "%s, %s," % (a.text.strip(), sub.text.strip())
+            print "[BedBathAndBeyondScraper] :: scrap_result_row() :: " \
+                  "msg:", msg
+            scraper_csv_write(fname, msg)
+
         except Exception as exp:
             print '[BedBathAndBeyondScraper] :: scrap_result_row() :: ' \
                   'Got exception : %s' % exp

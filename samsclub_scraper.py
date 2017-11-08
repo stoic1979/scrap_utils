@@ -4,8 +4,9 @@
 
 
 import requests
+import traceback
 from bs4 import BeautifulSoup
-from utils import sleep_scrapper, get_request_headers
+from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
 
 class SamsclubScraper:
@@ -32,39 +33,52 @@ class SamsclubScraper:
 
                 soup = BeautifulSoup(html_doc, 'html.parser')
 
-                # parsing html content  to fet information about python developer
                 for div in soup.find_all('div', class_='products-card'):
                     self.scrap_result_row(div)
                 sleep_scrapper('SamsclubScraper')
 
             except Exception as exp:
                 print '[SamsclubScraper] :: run() :: Got exception : %s' % exp
+                print(traceback.format_exc())
 
     def scrap_result_row(self, div):
-        # name
-        figure = div.find('figure', title='Full title')
-        a = figure.find('a', class_='cardProdLink')
-        figcaption = a.find('figcaption', class_='img-text').text.strip()
-        print '[SamsclubScraper] :: name: ', figcaption
+        try:
+            # name
+            figure = div.find('figure', title='Full title')
+            a = figure.find('a', class_='cardProdLink')
+            figcaption = a.find('figcaption', class_='img-text').text.strip()
+            print '[SamsclubScraper] :: name: ', figcaption
 
-        # rating
-        rat = div.find('div', class_='cust-rating-details')
-        cust_rating = rat.find('div', class_='cust-rating')
-        rating_mem = cust_rating.find('span', class_='rating-mem').text.strip()
-        print '[SamsclubScraper] :: Rating: ', rating_mem
+            # rating
+            rat = div.find('div', class_='cust-rating-details')
+            cust_rating = rat.find('div', class_='cust-rating')
+            rating_mem = cust_rating.find('span', class_='rating-mem')\
+                .text.strip()
+            print '[SamsclubScraper] :: Rating: ', rating_mem
 
-        # price
-        prods_details = div.find('div', class_='prods-details')
-        sc_price = prods_details.find('div', class_='sc-price-v2').text.strip()
-        print '[SamsclubScraper] :: price: ', sc_price
+            # price
+            prods_details = div.find('div', class_='prods-details')
+            sc_price = prods_details.find('div', class_='sc-price-v2')\
+                .text.strip()
+            print '[SamsclubScraper] :: price: ', sc_price
 
-        # save Price
-        prods_details = div.find('div', class_='prods-details')
-        save = ''
-        save_off = prods_details.find('div', class_='save-off-price')
-        if save_off:
-            save = save_off.text.strip()
-            print '[SamsclubScraper] :: save-price: ', save
+            # save Price
+            prods_details = div.find('div', class_='prods-details')
+            save = ''
+            save_off = prods_details.find('div', class_='save-off-price')
+            if save_off:
+                save = save_off.text.strip()
+                print '[SamsclubScraper] :: save-price: ', save
+
+            fname = 'data_samsclub.csv'
+            msg = "%s, %s, %s, %s," % (figcaption, rating_mem, sc_price, save)
+            print "[SamsclubScraper] :: scrap_result_row() :: msg:", msg
+            scraper_csv_write(fname, msg)
+
+        except Exception as exp:
+            print '[SamsclubScraper] :: scrap_result_row() :: ' \
+                  'Got exception: %s' % exp
+            print(traceback.format_exc())
 
 if __name__ == '__main__':
     samsclub = SamsclubScraper()

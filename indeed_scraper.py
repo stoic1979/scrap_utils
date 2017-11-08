@@ -5,7 +5,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-from utils import sleep_scrapper, get_request_headers
+from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
 
 class IndeedScrapper:
@@ -72,10 +72,16 @@ class IndeedScrapper:
             span = div.find('span', class_='summary')
             summary = span.text.strip()
             print "[IndeedScrapper] :: summery: %s" % summary
+
+            fname = 'data_indeed.csv'
+            msg = "%s, %s, %s, %s," % (title, location, sal, summary)
+            print "[IndeedScrapper] :: scrap_result_row() :: msg:", msg
+            scraper_csv_write(fname, msg)
+
         except Exception as exp:
             print '[IndeedScrapper] :: scrap_result_row() :: ' \
                   'Got exception : %s' % exp
 
 if __name__ == '__main__':
-    scraper = IndeedScrapper('java', 'mohali punjab')
+    scraper = IndeedScrapper('python', 'mohali punjab')
     scraper.run()
