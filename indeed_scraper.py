@@ -4,8 +4,11 @@
 
 
 import requests
+from  db import Mdb
 from bs4 import BeautifulSoup
 from utils import sleep_scrapper, get_request_headers, scraper_csv_write
+
+mdb = Mdb()
 
 
 class IndeedScrapper:
@@ -72,6 +75,8 @@ class IndeedScrapper:
             span = div.find('span', class_='summary')
             summary = span.text.strip()
             print "[IndeedScrapper] :: summery: %s" % summary
+
+            mdb.indeed_scraper_data(title, location, sal, summary)
 
             fname = 'data_indeed.csv'
             msg = "%s, %s, %s, %s," % (title, location, sal, summary)

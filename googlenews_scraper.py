@@ -5,8 +5,11 @@
 
 import requests
 import traceback
+from db import Mdb
 from bs4 import BeautifulSoup
 from utils import sleep_scrapper, get_request_headers, scraper_csv_write
+
+mdb = Mdb()
 
 
 class GoogleNewsScraper:
@@ -51,6 +54,9 @@ class GoogleNewsScraper:
             c_wiz = sub.find('c-wiz', class_='M1Uqc MLSuAf')
             a = c_wiz.find('a', class_='nuEeue hzdq5d ME7ew').text.strip()
             print '[GoogleNewsScraper] :: SubheadLines: ', a
+
+            # save in data base
+            mdb.google_news_data(headlines, a)
 
             fname = 'data_google_news.csv'
             msg = "%s, %s" % (headlines, a)
