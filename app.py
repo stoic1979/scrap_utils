@@ -1,8 +1,9 @@
 import os
 from flask import Flask, render_template, request
+from db import Mdb
 
 app = Flask(__name__)
-
+mdb = Mdb()
 
 @app.route('/')
 def home():
@@ -12,7 +13,9 @@ def home():
 
 @app.route('/indeed_scraper')
 def indeed_scraper():
-    temp_data = {'title': 'Scrap_utils'}
+    indeed = mdb.get_indeed_data()
+    # print 'data---------', data
+    temp_data = {'title': 'Scrap_utils', 'indeed': indeed}
     return render_template('indeed.html', **temp_data)
 
 

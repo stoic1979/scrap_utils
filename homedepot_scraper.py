@@ -5,12 +5,14 @@
 
 import requests
 from bs4 import BeautifulSoup
+from db import Mdb
 from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
 
 class HomeDepotScraper:
 
     def __init__(self, product):
+        self.mdb = Mdb()
         self.product = product.replace(" ", "-")
 
     def run(self):
@@ -62,6 +64,8 @@ class HomeDepotScraper:
             stock = div.find('div', class_='pod-plp__shipping-message__'
                                            'wrapper-boss-bopis').text.strip()
             print '[HomeDepotScraper] :: stock: ', stock
+
+            self.mdb.homedepot_data(model, price, stock)
 
             fname = 'data_home_depot.csv'
             msg = "%s, %s, %s," % (model, price, stock)

@@ -4,7 +4,7 @@ DB_PORT = 27017
 
 AUTH_DB_NAME = 'admin'
 
-DB_NAME = 'webappdb'
+DB_NAME = 'scrap_utils'
 
 DB_USER = 'admin'
 

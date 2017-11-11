@@ -4,24 +4,24 @@
 
 
 import requests
-from  db import Mdb
+from db import Mdb
 from bs4 import BeautifulSoup
 from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
-mdb = Mdb()
 
 
 class IndeedScrapper:
 
-    def __init__(self, pos, location):
+    def __init__(self, domain, pos, location):
 
+        self.domain = domain.replace(" ", "+")
         self.post = pos.replace(" ", "+")
         self.location = location.replace(" ", "+")
+        self.mdb = Mdb()
 
     def run(self):
 
-        base_url = 'https://www.indeed.co.in/jobs?q=' \
-              '%s&l=%s&start=' % (self.post, self.location)
+        base_url = 'https://www.indeed.co%s/jobs?q=%s&l=%s&start=' % (self.domain, self.post, self.location)
         for j in range(0, 1000, 10):
             url = ''
             try:
@@ -37,7 +37,7 @@ class IndeedScrapper:
                 html_doc = r.content
 
                 soup = BeautifulSoup(html_doc, 'html.parser')
-
+                # print '----------soup', soup
                 for div in soup.find_all('div'):
                     # ignore divs with classes
                     if not div.attrs.has_key('class'):
@@ -45,6 +45,7 @@ class IndeedScrapper:
 
                     cls = div.attrs['class']
                     if 'row' in cls and 'result' in cls:
+                        # print '--------', cls
                         self.scrap_result_row(div)
                         # break
                 sleep_scrapper('IndeedScraper')
@@ -76,7 +77,7 @@ class IndeedScrapper:
             summary = span.text.strip()
             print "[IndeedScrapper] :: summery: %s" % summary
 
-            mdb.indeed_scraper_data(title, location, sal, summary)
+            self.mdb.indeed_scraper_data(title, location, sal, summary)
 
             fname = 'data_indeed.csv'
             msg = "%s, %s, %s, %s," % (title, location, sal, summary)
@@ -88,5 +89,6 @@ class IndeedScrapper:
                   'Got exception : %s' % exp
 
 if __name__ == '__main__':
-    scraper = IndeedScrapper('python', 'mohali punjab')
+    scraper = IndeedScrapper('m', 'python', 'United States')
+    # craper = IndeedScrapper('.in', 'python', 'mohali punjab')
     scraper.run()

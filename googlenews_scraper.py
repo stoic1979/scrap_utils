@@ -9,13 +9,11 @@ from db import Mdb
 from bs4 import BeautifulSoup
 from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
-mdb = Mdb()
-
 
 class GoogleNewsScraper:
 
     def __init__(self):
-        pass
+        self.mdb = Mdb()
 
     def run(self):
         try:
@@ -56,7 +54,7 @@ class GoogleNewsScraper:
             print '[GoogleNewsScraper] :: SubheadLines: ', a
 
             # save in data base
-            mdb.google_news_data(headlines, a)
+            self.mdb.google_news_data(headlines, a)
 
             fname = 'data_google_news.csv'
             msg = "%s, %s" % (headlines, a)
