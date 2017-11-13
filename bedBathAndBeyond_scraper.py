@@ -5,6 +5,7 @@
 
 import requests
 import traceback
+from db import Mdb
 from bs4 import BeautifulSoup
 from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
@@ -13,6 +14,7 @@ class BedBathAndBeyondScraper:
 
     def __init__(self, product_category, product_subcategory,
                  product_title, product_code):
+        self.mdb = Mdb()
         self.product_category = product_category
         self.product_subcategory = product_subcategory
         self.product_title = product_title
@@ -56,6 +58,8 @@ class BedBathAndBeyondScraper:
             sub_div = div.find('div', class_='priceOfProduct')
             sub = sub_div.find('div', class_='isPrice')
             print '[BedBathAndBeyondScraper] :: price: ', sub.text.strip()
+
+            self.mdb.bedbathandbeyond_scraper_data(a.text.strip(), sub.text.strip())
 
             fname = 'data_bed_bath_and_beyond.csv'
             msg = "%s, %s," % (a.text.strip(), sub.text.strip())

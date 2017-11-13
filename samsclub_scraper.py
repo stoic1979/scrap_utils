@@ -5,6 +5,7 @@
 
 import requests
 import traceback
+from db import Mdb
 from bs4 import BeautifulSoup
 from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
@@ -12,7 +13,7 @@ from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 class SamsclubScraper:
 
     def __init__(self):
-        pass
+        self.mdb = Mdb()
 
     def run(self):
 
@@ -46,32 +47,34 @@ class SamsclubScraper:
             # name
             figure = div.find('figure', title='Full title')
             a = figure.find('a', class_='cardProdLink')
-            figcaption = a.find('figcaption', class_='img-text').text.strip()
-            print '[SamsclubScraper] :: name: ', figcaption
+            name = a.find('figcaption', class_='img-text').text.strip()
+            print '[SamsclubScraper] :: name: ', name
 
             # rating
             rat = div.find('div', class_='cust-rating-details')
             cust_rating = rat.find('div', class_='cust-rating')
-            rating_mem = cust_rating.find('span', class_='rating-mem')\
+            rating = cust_rating.find('span', class_='rating-mem')\
                 .text.strip()
-            print '[SamsclubScraper] :: Rating: ', rating_mem
+            print '[SamsclubScraper] :: Rating: ', rating
 
             # price
             prods_details = div.find('div', class_='prods-details')
-            sc_price = prods_details.find('div', class_='sc-price-v2')\
+            price = prods_details.find('div', class_='sc-price-v2')\
                 .text.strip()
-            print '[SamsclubScraper] :: price: ', sc_price
+            print '[SamsclubScraper] :: price: ', price
 
             # save Price
             prods_details = div.find('div', class_='prods-details')
             save = ''
             save_off = prods_details.find('div', class_='save-off-price')
             if save_off:
-                save = save_off.text.strip()
-                print '[SamsclubScraper] :: save-price: ', save
+                save_price = save_off.text.strip()
+                print '[SamsclubScraper] :: save-price: ', save_price
+
+            self.mdb.samsclub_data(name, rating, price, save_price)
 
             fname = 'data_samsclub.csv'
-            msg = "%s, %s, %s, %s," % (figcaption, rating_mem, sc_price, save)
+            msg = "%s, %s, %s, %s," % (name, rating, price, save_price)
             print "[SamsclubScraper] :: scrap_result_row() :: msg:", msg
             scraper_csv_write(fname, msg)
 

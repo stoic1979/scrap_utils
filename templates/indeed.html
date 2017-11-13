@@ -1,71 +1,17 @@
-<html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidebar.css') }}">
-</head>
-<body>
-    <div class="container">
-        <div id="wrapper">
-            <div id="sidebar-wrapper">
-                <ul class="sidebar-nav" >
-                    <li class="sidebar-brand"></li>
-                    <li>
-                        <center><a href="/"> <span >Scraping Websites</span>  </a></center>
-                    </li>
-                    <li>
-                        <a href="/indeed_scraper"><i class="glyphicon glyphicon-stats " aria-hidden="true"> </i>&ensp;<span >Indeed Scraper</span>  </a>
-                    </li>
-                    <li>
-                        <a href="/overstock_scraper"><i class="glyphicon glyphicon-stats " aria-hidden="true">&ensp;</i><span >Over Stock Scraper</span>  </a>
-                    </li>
-                    <li>
-                    <a href="/bed_bath_and_beyond"><i class="glyphicon glyphicon-stats " aria-hidden="true"> </i>&ensp;<span >Bed Bath and Beyond</span>  </a>
-                    </li>
-                    <li>
-                        <a href="/google_news"> <i class="glyphicon glyphicon-stats " aria-hidden="true"> </i>&ensp;<span >Google News</span> </a>
-                    </li>
-                    <li>
-                        <a href="/home_depot"><i class="glyphicon glyphicon-stats " aria-hidden="true"> </i>&ensp;<span >Home Depot</span> </a>
-                    </li>
-                    <li>
-                        <a href="/samsclub"><i class="glyphicon glyphicon-stats " aria-hidden="true"> </i>&ensp;<span>Sams Club</span> </a>
-                    </li>
+{% extends "base.html" %}
+{% block title %}SignUp Page{% endblock %}
+{% block head %}
+  {{ super() }}
 
-                    <hr>
-                        <li>
-                            <a href="#"><i class="glyphicon glyphicon-stats " aria-hidden="true"> </i>&ensp;<span>Invite Your team</span> </a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="glyphicon glyphicon-stats " aria-hidden="true"> </i>&ensp;<span>Settings</span></a>
-                        </li>
-                    </ul>
-                 <a href="" id="menu-toggle" class="menu"><i class="glyphicon glyphicon-stats " aria-hidden="true"> </i> </a>
-
-        </div>
-    </div>
-
-    <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $(this).find('i').toggleClass('fa fa-angle-double-left').toggleClass('fa fa-angle-double-right');
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
-    </div>
-
-    <center><h1>Indeed Jobs</h1>
-  <div class="row">
-    <div class="col-sm-2" >
+{% endblock %}
+{% block content %}
 
 
-  </div>
-    <div class="col-sm-9">
+<p class="important">
+<center><h1>Indeed Jobs</h1></center>
 
             <table class="table table-bordered" >
-                <thead bgcolor="#7E84EC">
+                <thead>
                     <tr>
                         <th width="14%">Indeed Id</th>
                         <th width="14%">Company Title</th>
@@ -76,7 +22,7 @@
                     </tr>
                 </thead>
                     {% for indeed in indeed %}
-                <tbody bgcolor="#BCBFEC">
+                <tbody>
                     <tr>
                         <td width="14%">{{ indeed._id }}</td>
                         <td width="14%">{{ indeed.title }}</td>
@@ -90,16 +36,6 @@
                 {% endfor %}
             </table>
 
-    </div>
-      <div class="col-sm-1"></div>
-  </div>
-</div>
 
-
-
-
-
-    </center>
-</body>
-</html>
-
+</p>
+{% endblock %}

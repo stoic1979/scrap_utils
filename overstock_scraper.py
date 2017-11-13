@@ -5,6 +5,7 @@
 
 import requests
 import traceback
+from db import Mdb
 from bs4 import BeautifulSoup
 from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 
@@ -12,6 +13,7 @@ from utils import sleep_scrapper, get_request_headers, scraper_csv_write
 class OverStockScraper:
 
     def __init__(self, product_category, product_code):
+        self.mdb = Mdb()
         self.product_category = product_category
         self.product_code = product_code
 
@@ -49,16 +51,18 @@ class OverStockScraper:
         try:
             div = div.find('div', class_='product-info')
             sub_div = div.find('div', class_='product-price-wrapper')
-            s_div = sub_div.find('div', class_='product-price-container')\
+            price = sub_div.find('div', class_='product-price-container')\
                 .text.strip()
-            print '[OverStockScraper] :: price: ', s_div
-            sub_div = div.find('div', class_='product-title').text.strip()
-            print '[OverStockScraper] :: title: ', sub_div
-            sub_div = div.find('div', class_='product-footer')
-            print '[OverStockScraper] :: rating: ', sub_div
+            print '[OverStockScraper] :: price: ', price
+            title = div.find('div', class_='product-title').text.strip()
+            print '[OverStockScraper] :: title: ', title
+            rating = div.find('div', class_='product-footer')
+            print '[OverStockScraper] :: rating: ', rating
+
+            self.mdb.overstock_scraper_data(price, title, rating)
 
             fname = 'data_over_stock.csv'
-            msg = "%s, %s, %s," % (s_div, sub_div, sub_div)
+            msg = "%s, %s, %s," % (price, title, rating)
             print "[OverStockScraper] :: scrap_result_row() :: msg:", msg
             scraper_csv_write(fname, msg)
 

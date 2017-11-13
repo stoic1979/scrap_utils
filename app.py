@@ -5,9 +5,10 @@ from db import Mdb
 app = Flask(__name__)
 mdb = Mdb()
 
+
 @app.route('/')
 def home():
-    temp_data = {'title': 'Scrap_utils'}
+    temp_data = {'title': 'Scrap Utils'}
     return render_template('index.html', **temp_data)
 
 
@@ -21,32 +22,40 @@ def indeed_scraper():
 
 @app.route('/overstock_scraper')
 def overstock_scraper():
-    temp_data = {'title': 'Scrap_utils'}
+    overstock = mdb.get_overstock_data()
+    temp_data = {'title': 'Scrap_utils', 'overstock': overstock}
     return render_template('overstock.html', **temp_data)
 
 
 @app.route('/bed_bath_and_beyond')
 def bed_bath_and_beyond():
-    temp_data = {'title': 'Scrap_utils'}
+    bedbathandbeyond = mdb.get_bedbathandbeyond_data()
+    temp_data = {'title': 'Scrap_utils', 'bedbathandbeyond': bedbathandbeyond}
     return render_template('bed_bath_and_beyond.html', **temp_data)
 
 
 @app.route('/google_news')
 def google_news():
-    temp_data = {'title': 'Scrap_utils'}
+    google_news = mdb.get_google_news_data()
+    temp_data = {'title': 'Scrap_utils', 'googleNews': google_news}
     return render_template('google_news.html', **temp_data)
 
 
 @app.route('/home_depot')
 def home_depot():
-    temp_data = {'title': 'Scrap_utils'}
+    homedepot = mdb.get_homedepot_data()
+    temp_data = {'title': 'Scrap_utils', 'homedepot': homedepot}
     return render_template('home_depot.html', **temp_data)
 
 
 @app.route('/samsclub')
 def samsclub():
-    temp_data = {'title': 'Scrap_utils'}
+    samsclub = mdb.get_samsclub_data()
+    temp_data = {'title': 'Scrap_utils', 'samsclub': samsclub}
     return render_template('samsclub.html', **temp_data)
+
+
+
 
 
 if __name__ == '__main__':
