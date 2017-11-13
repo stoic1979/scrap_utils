@@ -19,9 +19,9 @@ class Mdb:
 
     def __init__(self):
         # local db
-        conn_str = "mongodb://%s:%s@%s:%d/%s" \
-             % (DB_USER, DB_PASS, DB_HOST, DB_PORT, AUTH_DB_NAME)
-        # conn_str = 'mongodb://scrapuser:scrappass@ds257495.mlab.com:57495/scrap_utils'
+        # conn_str = "mongodb://%s:%s@%s:%d/%s" \
+        #      % (DB_USER, DB_PASS, DB_HOST, DB_PORT, AUTH_DB_NAME)
+        conn_str = 'mongodb://scrapuser:scrappass@ds257495.mlab.com:57495/scrap_utils'
         client = MongoClient(conn_str)
         self.db = client['scrap_utils']
 
