@@ -55,7 +55,20 @@ def samsclub():
     return render_template('samsclub.html', **temp_data)
 
 
+@app.route('/yelp_scraper')
+def yelp_scraper():
+    yelp = mdb.get_yelp_data()
+    # print 'data---------', data
+    temp_data = {'title': 'Scrap_utils', 'yelp': yelp}
+    return render_template('yelp.html', **temp_data)
 
+
+@app.route('/yellow_pages_scraper')
+def yellow_pages_scraper():
+    yellowpages = mdb.get_yellowpages_data()
+    # print 'data---------', data
+    temp_data = {'title': 'Scrap_utils', 'yellowpages': yellowpages}
+    return render_template('yellow_pages.html', **temp_data)
 
 
 if __name__ == '__main__':

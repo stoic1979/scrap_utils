@@ -139,6 +139,49 @@ class Mdb:
             ret.append(data)
         return ret
 
+    def yelp_scraper_data(self, title, reviews_count, services, address, phone, snippet):
+        try:
+            rec = {
+                'title': title,
+                'reviews_count': reviews_count,
+                'services': services,
+                'address': address,
+                'phone': phone,
+                'snippet': snippet
+            }
+            self.db.yelp.insert(rec)
+        except Exception as exp:
+            print '[YelpScraper] :: yelp_scraper_data() :: Got exception: %s' % exp
+            print(traceback.format_exc())
+
+    def get_yelp_data(self):
+        result = self.db.yelp.find()
+        ret = []
+        for data in result:
+            ret.append(data)
+        return ret
+
+    def yellowpages_scraper_data(self, title, rating_count, address, phone, categories):
+        try:
+            rec = {
+                'title': title,
+                'rating_count': rating_count,
+                'address': address,
+                'phone': phone,
+                'categories': categories
+            }
+            self.db.yellowpages.insert(rec)
+        except Exception as exp:
+            print '[YellowPagesScraper] :: yellowpages_scraper_data() :: Got exception: %s' % exp
+            print(traceback.format_exc())
+
+    def get_yellowpages_data(self):
+        result = self.db.yellowpages.find()
+        ret = []
+        for data in result:
+            ret.append(data)
+        return ret
+
 if __name__ == '__main__':
     mdb = Mdb()
 
