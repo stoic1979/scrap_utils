@@ -66,7 +66,7 @@ def yelp_scraper():
 @app.route('/yellow_pages_scraper')
 def yellow_pages_scraper():
     yellowpages = mdb.get_yellowpages_data()
-    # print 'data---------', data
+    # print 'data---------', yellowpages
     temp_data = {'title': 'Scrap_utils', 'yellowpages': yellowpages}
     return render_template('yellow_pages.html', **temp_data)
 

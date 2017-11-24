@@ -45,9 +45,7 @@ class IndeedScrapper:
 
                     cls = div.attrs['class']
                     if 'row' in cls and 'result' in cls:
-                        # print '--------', cls
                         self.scrap_result_row(div)
-                        # break
                 sleep_scrapper('IndeedScraper')
             except Exception as exp:
                 print '[IndeedScraper] :: run() :: Got exception : ' \
@@ -89,6 +87,6 @@ class IndeedScrapper:
                   'Got exception : %s' % exp
 
 if __name__ == '__main__':
-    scraper = IndeedScrapper('m', 'python', 'United States')
-    # craper = IndeedScrapper('.in', 'python', 'mohali punjab')
+    # scraper = IndeedScrapper('m', 'python', 'United States')
+    scraper = IndeedScrapper('.in', 'python', 'mohali punjab')
     scraper.run()
