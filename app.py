@@ -11,7 +11,7 @@ def home():
     temp_data = {'title': 'Scrap Utils'}
     return render_template('index.html', **temp_data)
 
-
+   
 @app.route('/indeed_scraper')
 def indeed_scraper():
     indeed = mdb.get_indeed_data()
