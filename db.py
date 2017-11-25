@@ -182,6 +182,26 @@ class Mdb:
             ret.append(data)
         return ret
 
+    def flipkart_scraper_data(self, title, sub_rating, specifications, price):
+        try:
+            rec = {
+                'title': title,
+                'rating': sub_rating,
+                'specifications': specifications,
+                'price': price
+            }
+            self.db.flipkart.insert(rec)
+        except Exception as exp:
+            print '[YellowPagesScraper] :: yellowpages_scraper_data() :: Got exception: %s' % exp
+            print(traceback.format_exc())
+
+    def get_flipkart_data(self):
+        result = self.db.flipkart.find()
+        ret = []
+        for data in result:
+            ret.append(data)
+        return ret
+
 if __name__ == '__main__':
     mdb = Mdb()
     # mdb.get_yellowpages_data()

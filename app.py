@@ -71,6 +71,14 @@ def yellow_pages_scraper():
     return render_template('yellow_pages.html', **temp_data)
 
 
+@app.route('/flipkart_scraper')
+def flipkart_scraper():
+    flipkart = mdb.get_flipkart_data()
+    # print 'data---------', flipkart
+    temp_data = {'title': 'Scrap_utils', 'flipkart': flipkart}
+    return render_template('flipkart.html', **temp_data)
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True, threaded=True)

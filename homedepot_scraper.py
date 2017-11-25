@@ -36,7 +36,6 @@ class HomeDepotScraper:
                 soup = BeautifulSoup(html_doc, 'html.parser')
 
                 for div in soup.find_all('div', class_='pod-inner'):
-                    # print '---------div', div
                     self.scrap_result_row(div)
                 sleep_scrapper('HomeDepotScraper')
             except Exception as exp:
