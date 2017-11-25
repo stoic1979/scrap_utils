@@ -74,7 +74,7 @@ def yellow_pages_scraper():
 @app.route('/flipkart_scraper')
 def flipkart_scraper():
     flipkart = mdb.get_flipkart_data()
-    # print 'data---------', flipkart
+    print 'data---------', flipkart
     temp_data = {'title': 'Scrap_utils', 'flipkart': flipkart}
     return render_template('flipkart.html', **temp_data)
 
